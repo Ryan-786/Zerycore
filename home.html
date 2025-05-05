@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZIRY | Zonal Innovations by Ryan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #0e0e0e;
+      --text-color: #f0c040;
+      --card-bg: #1a1a1a;
+    }
+
+    [data-theme="light"] {
+      --bg-color: #ffffff;
+      --text-color: #333333;
+      --card-bg: #f9f9f9;
+    }
+
+    * {
+      box-sizing: border-box;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: #111;
+      text-align: center;
+      padding: 30px 20px;
+      border-bottom: 2px solid var(--text-color);
+      position: relative;
+    }
+
+    header img {
+      max-width: 120px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2.5em;
+    }
+
+    p.tagline {
+      font-size: 1em;
+      color: #ccc;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      cursor: pointer;
+      padding: 5px 10px;
+      background: #222;
+      border: 1px solid #555;
+      border-radius: 5px;
+      color: var(--text-color);
+    }
+
+    .theme-toggle::before {
+      content: '🌙';
+      margin-right: 5px;
+    }
+
+    [data-theme="light"] .theme-toggle::before {
+      content: '☀️';
+    }
+
+    .menu-icon {
+      position: absolute;
+      left: 20px;
+      top: 20px;
+      cursor: pointer;
+      font-size: 1.5em;
+      background: #222;
+      color: var(--text-color);
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -250px;
+      width: 250px;
+      height: 100%;
+      background: var(--card-bg);
+      padding: 20px;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+      transition: left 0.3s ease;
+      z-index: 999;
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar li {
+      margin: 15px 0;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: var(--text-color);
+    }
+
+    section {
+      padding: 50px 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .section-title {
+      font-size: 1.6em;
+      border-left: 5px solid var(--text-color);
+      padding-left: 15px;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 8px rgba(240,192,64, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      cursor: pointer;
+    }
+
+    .card img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .card-content {
+      display: none;
+      padding-top: 10px;
+      color: #aaa;
+    }
+
+    .card.active .card-content {
+      display: block;
+    }
+
+    footer {
+      background: #111;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      color: #888;
+      border-top: 2px solid var(--text-color);
+    }
+
+    .project-card {
+      border-left: 4px solid var(--text-color);
+      padding-left: 15px;
+      flex-direction: column;
+    }
+
+    .cta-button {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: var(--text-color);
+      color: var(--bg-color);
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .cta-button:hover {
+      background-color: #d9a030;
+    }
+
+    .achievement-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .achievement-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 250px;
+    }
+
+    .achievement-item img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      border: 2px solid var(--text-color);
+    }
+
+    .achievement-caption {
+      margin-top: 8px;
+      font-size: 0.9em;
+      color: #ccc;
+      text-align: center;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .team-image {
+  width: 150px;  /* Increase the size here */
+  height: 150px; /* Increase the size here */
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto; /* Center the image inside the container */
+}
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: var(--text-color);
+  background: none;
+  border: none;
+}
+
+
+    
+  </style>
+</head>
+<body>
+<header>
+  <img src="ZIRY.jpeg" alt="ZIRY Logo">
+  <h1>ZERYCORE</h1>
+  <p class="tagline">ZONAL ENTERPRISE BY RYAN FOR YOUTH CENTRIC OPERATIONS</p>
+</header>
+
+<div class="menu-icon" onclick="toggleSidebar()">☰</div>
+<div class="sidebar" id="sidebar">
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#achievements">Achievements</a></li>
+    <li><a href="#join">Join Us</a></li>
+  </ul>
+  <div class="close-btn" onclick="toggleSidebar()">✖</div>
+</div>
+<button class="theme-toggle" onclick="toggleTheme()"></button>
+
+
+
+<section id="about">
+  <div class="section-title reveal">About ZERYCORE</div>
+  <div class="card reveal">
+    <p>ZERYCORE (ZONAL ENTERPRISE BY RYAN FOR YOUTH CENTRIC OPERATIONS) is a technology initiative dedicated to solving real-world problems through innovative, practical applications. Founded by Ryan Yunus, ZIRY encompasses a suite of projects that span emergency response, digital rights verification, and beyond.</p>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="section-title reveal">Our Launched Projects</div>
+
+  <div class="card project-card reveal" onclick="toggleDetails(this)">
+    <img src="Zerythron.jpg.jpeg" alt="Zerythron Logo" style="margin:auto;">
+    <strong style="text-align:center; display:block;">Zerythron</strong>
+    An E-Waste Management Startup...<br>
+    <span class="card-content">
+      An E-Waste Management Startup where users can sell their electronic scrap items and get cash rewards + free merchandise.
+      <a href="https://www.zerythron.in" style="color:var(--text-color);">Explore Zerythron</a>
+    </span>
+  </div>
+
+  <div class="card project-card reveal" onclick="toggleDetails(this)">
+    <img src="zyro.jpeg" alt="ZyroGuard Logo" style="margin:auto;">
+    <strong style="text-align:center; display:block;">ZyroGuard</strong>
+    AI-powered verification platform...<br>
+    <span class="card-content">
+      Helps prevent fake digital arrests.
+      <a href="#" style="color:var(--text-color);">Explore ZyroGuard</a>
+    </span>
+  </div>
+</section>
+
+<section id="team">
+  <div class="section-title reveal">About Us</div>
+  <div class="card reveal" onclick="toggleDetails(this)">
+    <img src=".jpg" alt="Team Member" class="team-image" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;">
+    <p><strong>Founder & CEO:</strong> Mo Ryan Yunus</p>
+    <p>ZERYCORE is a hub of innovative tech projects...</p>
+    <div class="card-content">More details about Ryan and ZIRY...</div>
+  </div>
+</section>
+<section id="achievements">
+  <div class="section-title reveal">Our Achievements</div>
+  <div class="achievement-gallery">
+    <div class="achievement-item reveal">
+      <img src="PRTC.jpg" alt="Certificate 1">
+      <div class="achievement-caption">ZERYTHRON presented at Protech2K25</div>
+    </div>
+    <div class="achievement-item reveal">
+      <img src="certificate2.jpg" alt="Certificate 2">
+      <div class="achievement-caption">Innovation Excellence Award</div>
+    </div>
+    <div class="achievement-item reveal">
+      <img src="award1.jpg" alt="Award 1">
+      <div class="achievement-caption">Best Startup Recognition</div>
+    </div>
+  </div>
+</section>
+
+<section id="team">
+  <div class="section-title reveal">Our Team</div>
+
+  <!-- Founder Section -->
+  <div class="card reveal" onclick="toggleDetails(this)">
+    <div class="team-member">
+      <img src="[Founder Image URL]" alt="Ryan" class="team-image">
+      <div>
+        <p><strong>Founder & CEO:</strong> Ryan</p>
+        <p>ZERYCORE is a hub of innovative tech projects...</p>
+      </div>
+    </div>
+    <div class="card-content">More details about Ryan and ZERYCORE...</div>
+  </div>
+
+  <!-- Managing Director Section -->
+  <div class="card reveal" onclick="toggleDetails(this)">
+    <div class="team-member">
+      <img src="md.jpg" alt="Team Member" class="team-image" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;">
+      <div>
+        <p><strong>Managing Director:</strong> Khushi Pandey</p>
+        <p>Leads and directs the vision and growth of ZERYCORE, managing all strategic operations.</p>
+      </div>
+    </div>
+    <div class="card-content">More details about the Managing Director...</div>
+  </div>
+ 
+  <!-- HR Section -->
+  <div class="card reveal" onclick="toggleDetails(this)">
+    <div class="team-member">
+      <img src="hr.jpg" alt="Team Member" class="team-image" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;">
+      <div>
+        <p><strong>HR Team:</strong> Nehal Ajmal</p>
+        <p>Handles recruitment, employee engagement, and organizational culture at ZIRY.</p>
+      </div>
+    </div>
+    <div class="card-content">More details about the HR Team...</div>
+  </div>
+  
+  <!-- Promotion Heads Section -->
+  <div class="card reveal" onclick="toggleDetails(this)">
+    <div class="team-member">
+      <img src="ph.jpg" alt="Team Member" class="team-image" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;">
+      <div>
+        <p><strong>Promotion Heads:</strong> Naveen Sharma</p>
+        <p>Tasked with executing promotion strategies across multiple platforms.</p>
+      </div>
+    </div>
+    <div class="card-content">More details about the Promotion Heads...</div>
+  </div>
+  <!-- Promotion Heads Section -->
+  <div class="card reveal" onclick="toggleDetails(this)">
+    <div class="team-member">
+      <img src="atharva.jpg" alt="Team Member" class="team-image" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;">
+      <div>
+        <p><strong>Cheif Marketing Officer(CMO):</strong> Atharva Sharma</p>
+        <p>Tasked with executing promotion strategies across multiple platforms.</p>
+      </div>
+    </div>
+    <div class="card-content">More details about the Promotion Heads...</div>
+  </div>
+
+  <!-- Marketing Heads Section -->
+  <div class="card reveal" onclick="toggleDetails(this)">
+    <div class="team-member">
+      <img src="mh.jpg" alt="Team Member" class="team-image" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;">
+      <div>
+        <p><strong>Marketing Heads:</strong> Mithilesh Sahani</p>
+        <p>Responsible for formulating and implementing marketing strategies to drive growth.</p>
+      </div>
+    </div>
+    <div class="card-content">More details about the Marketing Heads...</div>
+  </div>
+   <!-- Content Creating Team Section -->
+   <div class="card reveal" onclick="toggleDetails(this)">
+    <div class="team-member">
+      <img src="[Content Creator Image URL]" alt="Content Creator" class="team-image">
+      <div>
+        <p><strong>Content Creating Team:</strong></p>
+        <p>A passionate team responsible for creating impactful content for all platforms.</p>
+      </div>
+    </div>
+    <div class="card-content">More details about the Content Creating Team...</div>
+  </div>
+
+  <!-- Creative Media Team Section -->
+  <div class="card reveal" onclick="toggleDetails(this)">
+    <div class="team-member">
+      <img src="[Creative Media Image URL]" alt="Creative Media Team" class="team-image">
+      <div>
+        <p><strong>Creative Media Team:</strong> [Names]</p>
+        <p>A team of creative minds bringing forth exceptional media content.</p>
+      </div>
+    </div>
+    <div class="card-content">More details about the Creative Media Team...</div>
+  </div>
+
+  <!-- Developing Team Section -->
+  <div class="card reveal" onclick="toggleDetails(this)">
+    <div class="team-member">
+      <img src="[Developing Team Image URL]" alt="Developing Team" class="team-image">
+      <div>
+        <p><strong>Developing Team:</strong> [Names]</p>
+        <p>Responsible for the technical development of ZERYCORE's projects and platforms.</p>
+      </div>
+    </div>
+    <div class="card-content">More details about the Developing Team...</div>
+  </div>
+</section>
+
+
+
+<section id="join">
+  <div class="section-title reveal">Join Us</div>
+  <div class="card project-card reveal" style="text-align:center; cursor: default;">
+    <p><strong>Are you passionate about innovation and impact?</strong></p>
+    <p>We are always looking for creators, coders, designers, and thinkers to join the ZIRY journey.</p>
+    <a href="mailto:join@ziry.tech" class="cta-button">Get Involved</a>
+  </div>
+</section>
+
+<footer>
+  &copy; 2025 ZERYCORE | All Rights Reserved
+</footer>
+
+<script>
+  function toggleDetails(card) {
+    card.classList.toggle("active");
+  }
+
+  function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute("data-theme");
+    document.documentElement.setAttribute("data-theme", currentTheme === "light" ? "dark" : "light");
+  }
+
+  function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    sidebar.classList.toggle("active");
+  }
+
+  document.querySelectorAll(".sidebar a").forEach(link => {
+    link.addEventListener("click", () => {
+      document.getElementById("sidebar").classList.remove("active");
+    });
+  });
+
+  document.documentElement.setAttribute("data-theme", "dark");
+
+  const revealElements = document.querySelectorAll('.reveal');
+
+  function revealOnScroll() {
+    const windowHeight = window.innerHeight;
+    revealElements.forEach(el => {
+      const elementTop = el.getBoundingClientRect().top;
+      if (elementTop < windowHeight - 100) {
+        el.classList.add('visible');
+      }
+    });
+  }
+
+  window.addEventListener("scroll", revealOnScroll);
+</script>
+
+</body>
+</html>
