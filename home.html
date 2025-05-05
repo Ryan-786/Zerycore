@@ -256,6 +256,16 @@
   color: var(--accent-color); /* Or any color you prefer */
   cursor: pointer;
 }
+.responsive-img {
+  width: 150%;
+  max-width: 150px;
+  height: auto;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 10px auto;
+}
+
 
   </style>
 </head>
@@ -321,13 +331,20 @@
 
 <section id="team">
   <div class="section-title reveal">About Us</div>
-  <div class="card reveal" onclick="toggleDetails(this)">
-    <img src=".jpg" alt="Team Member" class="team-image" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;">
-    <p><strong>Founder & CEO:</strong> Mo Ryan Yunus</p>
-    <p>ZERYCORE is a hub of innovative tech projects...</p>
+
+  <div class="card reveal" onclick="toggleDetails(this)" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; padding: 20px;">
+    <img src="ceo.jpg" alt="Team Member" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;">
+
+    <div>
+      <p><strong>Founder & CEO:</strong> Mo Ryan Yunus</p>
+      <p>ZERYCORE is a hub of innovative tech projects...</p>
+    </div>
+
     <div class="card-content">More details about Ryan and ZIRY...</div>
   </div>
 </section>
+
+
 <section id="achievements">
   <div class="section-title reveal">Our Achievements</div>
   <div class="achievement-gallery">
@@ -425,6 +442,23 @@
       <img src="fd.jpg" alt="Team Member" class="team-image" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;">
       <div>
         <p><strong>Frontend Developers:</strong> Harsh Bajpai</p>
+        <p>Responsible for formulating and implementing marketing strategies to drive growth.</p>
+      </div>
+    </div>    
+    <div class="team-member">
+      <img src="hn.jpg" alt="Aarav Sharma" class="team-image" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;">
+      <div>
+        <p><strong>Hani Dwivedi </strong></p>
+        <p>Specializes in responsive UI development and performance optimization.</p>
+      </div>
+    </div>
+    <div class="card-content">More details about the Marketing Heads...</div>
+  </div>
+  <div class="card reveal" onclick="toggleDetails(this)">
+    <div class="team-member">
+      <img src="kawal.jpg" alt="Team Member" class="team-image" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;">
+      <div>
+        <p><strong>Communication Head:</strong> Kawalpreet Kaur</p>
         <p>Responsible for formulating and implementing marketing strategies to drive growth.</p>
       </div>
     </div>    
